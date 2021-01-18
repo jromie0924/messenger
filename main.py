@@ -12,6 +12,10 @@ def establishConnection():
 
 
 def createSession():
+    channel.exchange_declare("sessions", exchange_type="fanout")
+    channel.queue_declare(queue="{username}_session")
+    channel.queue_bind(queue="{username}_session", exchange="sessions")
+
     channel.exchange_declare("conversation", exchange_type="direct")
     channel.queue_declare(queue=username)
     channel.queue_bind(
