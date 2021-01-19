@@ -3,11 +3,6 @@ import multiprocessing
 from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
 from pika.spec import Basic, BasicProperties
 
-SESSION_EXCHANGE = "sessions"
-SESSION_START_TYPE = "session-start"
-MESSAGE_TYPE = "message"
-FRIEND = ""
-
 
 class receiver():
     _channel: BlockingChannel = None
@@ -30,15 +25,10 @@ class receiver():
         self._channel.exchange_declare(
             exchange=self.exchange, exchange_type="fanout")
 
-        self._channel.exchange_declare(
-            exchange=SESSION_EXCHANGE, exchange_type="fanout")
-
         self._channel.queue_declare(queue=self.queue)
 
         self._channel.queue_bind(
             queue=self.queue, exchange=self.exchange, routing_key=self.queue)
-        self._channel.queue_bind(queue=self.queue, exchange=SESSION_EXCHANGE)
-
         self._channel.basic_consume(
             queue=self.queue, on_message_callback=self.on_message)
 
@@ -59,7 +49,7 @@ class publisher():
     _routing_key = ""
     _username = ""
 
-    def __init__(self, url, exchange, friend, username):
+    def __init__(self, url, exchange, username):
         self._connection = self.open_connection(url)
         self._exchange = exchange
         self._routing_key = username
@@ -77,7 +67,7 @@ class publisher():
 
     def publish_message(self, message):
         self._channel.basic_publish(self._exchange, routing_key="message", body=message,
-                                    properties=pika.BasicProperties(headers={"sender": self._username, "type": MESSAGE_TYPE}))
+                                    properties=pika.BasicProperties(headers={"sender": self._username}))
 
 
 def main():
@@ -85,13 +75,12 @@ def main():
     exchange = "conversation"
     username = input("Enter username: ")
     print("\n--------------------\n")
-    friend = ""
 
     _receiver = multiprocessing.Process(
         target=receiver, args=(url, exchange, username))
 
     _receiver.start()
-    _publisher = publisher(url, exchange, friend, username)
+    _publisher = publisher(url, exchange, username)
 
 
 if __name__ == "__main__":
