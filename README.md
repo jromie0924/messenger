@@ -18,7 +18,7 @@ Note that after you kill this process, you can simply restart the container by r
 ### Run the Python Code
 Once you're able to open the RabbitMQ management webpage in a browser, change directories to the root of the code repository and activate the virtual environment:
 
-Note that this app was written in Python 3.9 environment, so this guide assumes user will also use Python 3.9.
+Note that this app should be compatible with Python 3.6.8 and up.
 
 Install pipenv if it's not already installed:
 ```pip3 install --user pipenv```
