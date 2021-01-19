@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+autopep8 = "==1.5.4"
+pika = "==1.1.0"
+pycodestyle = "==2.6.0"
+toml = "==0.10.2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
