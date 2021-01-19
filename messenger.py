@@ -1,9 +1,8 @@
-import multiprocessing
 import pika
+import multiprocessing
+import sys
 from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
 from pika.spec import Basic, BasicProperties
-import time
-import sys
 
 
 class receiver():
@@ -17,10 +16,7 @@ class receiver():
         self.exchange = exchange
         self.queue = username
         self.setup_channel()
-        try:
-            self._channel.start_consuming()
-        except KeyboardInterrupt:
-            self.connection.close()
+        self._channel.start_consuming()
 
     def open_connection(self, url):
         return pika.BlockingConnection(parameters=pika.URLParameters(url))
@@ -43,7 +39,7 @@ class receiver():
         self._channel.basic_ack(delivery_tag=deliveryArgs.delivery_tag)
 
 
-class publisher(object):
+class publisher():
     _connection: BlockingConnection = None
     _channel: BlockingChannel = None
     _exchange = ""
@@ -63,7 +59,7 @@ class publisher(object):
 
     def prompt_messages(self):
         while True:
-            message = input("> ")
+            message = input()
             self.publish_message(message)
 
     def publish_message(self, message):
@@ -75,7 +71,7 @@ def main():
     url = "amqp://guest:guest@localhost:5672"
     exchange = "conversation"
     username = input("Enter username: ")
-    print("\n\n")
+    print("\n--------------------\n")
     friend = ""
     if username == "jackson":
         friend = "taumer"
@@ -84,8 +80,8 @@ def main():
 
     _receiver = multiprocessing.Process(
         target=receiver, args=(url, exchange, username))
-    _receiver.start()
 
+    _receiver.start()
     _publisher = publisher(url, exchange, friend, username)
 
 
