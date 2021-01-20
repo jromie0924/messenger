@@ -26,7 +26,7 @@ Note that this app should be compatible with Python 3.6.8 and up.
 
 Install pipenv if it's not already installed:
 ```pip3 install --user pipenv```
-If pipenv does not show as an existing command, you can run ```python3 -m site --user-base```
+If pipenv does not show as an existing command, you can run ```python3 -m site --user-base```. 
 For a Mac, add the resulting directory with an appended ```/bin``` to your $PATH.
 On Windows, replace ```/site-packages``` with ```/scripts``` and add it to your PATH.
 You can also skip the $PATH stuff and just run it like ```python3 -m pipenv```
