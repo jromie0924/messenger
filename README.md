@@ -1,10 +1,14 @@
 # Messenger
 A primitive messaging application centered around RabbitMQ
 
-## How it works
-No pre-configuration is required on the RabbitMQ side - the application creates a single fanout exchange, and a queue for each user that joins, bound to the exchange. This, as a result, allows multiple users to converse in a group session.
+## How it works (briefly)
+No pre-configuration is required on the RabbitMQ side - the application creates a single fanout exchange, and a single queue. This flask app is configured to only have one instance of the queue listener; each message contains a header that contains the sender so that they can be identified.
 
-Moreover, if a user has chatted before, and they disconnect from an ongoing conversation, messages sent in the time the user has been disconnected will remain in their corresponding queue in chronological order, thereby allowing them to see what has been talked about while they were gone.
+This makes it possible for more than two users to converse in a session.
+
+The application creates a publisher for each user, and stores it in a dictionary, keyed by the username. This way, each publisher instance will be assigned to its user, and publish messages on behalf of said user.
+
+Because Flask refreshes the DOM upon each endpoint request, we needed to get crafty on how to display incoming messages on the fly. There is a JavaScript file that starts a socket connection with the flask application (using Flask-SocketIO - https://flask-socketio.readthedocs.io/en/latest/). The message handler function sends a message through a socket to that JavaScript script, and it subsequently updates the DOM on the fly. This way there's no inconsistency in how the messages are delivered.
 
 ## Setup
 ### Get RabbitMQ Set Up
@@ -28,11 +32,13 @@ On Windows, replace ```/site-packages``` with ```/scripts``` and add it to your 
 You can also skip the $PATH stuff and just run it like ```python3 -m pipenv```
 
 Install required packages:
-```pipenv install -r requirements.txt```
+```pipenv install```
 
 Run the app:
 ```pipenv run python messenger.py```
 
-You'll be prompted for a username - enter whatever name you like. Then it'll hang. At this point you can send messages by simply typing and hitting enter.
+Open two browser windows side-by-side and browse to http://localhost:5000
 
-You can open another session by running the app in another command window and providing a different username. The two instances should be communicating with each other.
+You'll be presented with a login input field; on each field enter a different name - these can be anything you like. As a result of the first pressing submit, you'll see a new queue created in the AMQP management with a UUID name.
+
+With both users "logged in," they can communicate with the current input. The "submit" button needs to be clicked with a mouse rather than with the "enter" or "return" key. You'll see the messages sent displayed, and originated user identified.
