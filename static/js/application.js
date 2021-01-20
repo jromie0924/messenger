@@ -7,7 +7,6 @@ $(document).ready(function () {
 
     //receive details from server
     socket.on("newMessage", function (msg) {
-        console.log("Received Message" + msg.message);
         messages_received.push(msg.message);
         messages = "";
         for (var i = 0; i < messages_received.length; i++) {

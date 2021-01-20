@@ -1,8 +1,6 @@
 import pika
 import multiprocessing
 from pika.adapters.blocking_connection import BlockingChannel, BlockingConnection
-from pika.spec import Basic, BasicProperties
-from flask import Flask
 
 
 # Receiver class handles all listening configuration for the messaging app.
@@ -73,23 +71,23 @@ class publisher():
                                     properties=pika.BasicProperties(headers={"sender": self._username}))
 
 
-# Runner more or less bootstraps everrything together.
-class runner():
-    def __init__(self):
-        url = "amqp://guest:guest@localhost:5672"
-        exchange = "conversation"
-        username = input("Enter username: ")
-        print("\n--------------------\n")
+# # Runner more or less bootstraps everrything together.
+# class runner():
+#     def __init__(self):
+#         url = "amqp://guest:guest@localhost:5672"
+#         exchange = "conversation"
+#         username = input("Enter username: ")
+#         print("\n--------------------\n")
 
-        # Because telling a channel to listen on a queue is a blocking statement,
-        # we need to put the receiver instance in a multiprocess so that it can allow the program to continue.
-        # Otherwise, it would hang upon initialization of the receiver and we would never be able to publish messages.
-        _receiver = multiprocessing.Process(
-            target=receiver, args=(url, exchange, username))
+#         # Because telling a channel to listen on a queue is a blocking statement,
+#         # we need to put the receiver instance in a multiprocess so that it can allow the program to continue.
+#         # Otherwise, it would hang upon initialization of the receiver and we would never be able to publish messages.
+#         _receiver = multiprocessing.Process(
+#             target=receiver, args=(url, exchange, username))
 
-        _receiver.start()
-        _publisher = publisher(url, exchange, username)
+#         _receiver.start()
+#         _publisher = publisher(url, exchange, username)
 
 
 if __name__ == "__main__":
-    messenger = runner()
+    print("\n=========================================\n\nThis module is no longer an entry point.\n\n=========================================\n")

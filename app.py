@@ -5,6 +5,7 @@ from messenger import receiver, publisher
 import multiprocessing
 from threading import Thread, Event
 from flask_socketio import SocketIO, emit
+import uuid
 
 app = Flask(__name__)
 app.secret_key = "my secret key"
@@ -21,12 +22,12 @@ thread: Thread = None
 threads = []
 web_apps = {}
 
+
 # Function to be passed to the receiver class as its message handler.
-
-
 def on_message_handler(ch: BlockingChannel, deliveryArgs: Basic.Deliver, properties: BasicProperties, body: bytes):
     message = body.decode()
-
+    print(deliveryArgs)
+    print(ch)
     # It is assumed that every message will have a "sender" header associated with the sender's username.
     sender = properties.headers.get("sender")
     print(sender)
@@ -47,7 +48,8 @@ class webapp():
         self._publisher = publisher(url, exchange, username)
 
         def start():
-            _receiver = receiver(url, exchange, username, on_message_handler)
+            guid = str(uuid.uuid4())
+            _receiver = receiver(url, exchange, guid, on_message_handler)
         global thread
         if thread is None:
             thread = socketio.start_background_task(start)
