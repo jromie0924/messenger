@@ -31,6 +31,8 @@ For a Mac, add the resulting directory with an appended ```/bin``` to your $PATH
 On Windows, replace ```/site-packages``` with ```/scripts``` and add it to your PATH.
 You can also skip the $PATH stuff and just run it like ```python3 -m pipenv```
 
+Change directories to the repository root: ```cd /path/to/repo```
+
 Install required packages:
 ```pipenv install```
 
