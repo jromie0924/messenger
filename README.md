@@ -37,7 +37,7 @@ Install required packages:
 ```pipenv install```
 
 Run the app:
-```pipenv run python messenger.py```
+```pipenv run python app.py```
 
 Open two browser windows side-by-side and browse to http://localhost:5000
 
