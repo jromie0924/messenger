@@ -8,7 +8,7 @@ This makes it possible for more than two users to converse in a session.
 
 The application creates a publisher for each user, and stores it in a dictionary, keyed by the username. This way, each publisher instance will be assigned to its user, and publish messages on behalf of said user.
 
-Because Flask refreshes the DOM upon each endpoint request, we needed to get crafty on how to display incoming messages on the fly. There is a JavaScript file that starts a socket connection with the flask application (using Flask-SocketIO - https://flask-socketio.readthedocs.io/en/latest/). The message handler function sends a message through a socket to that JavaScript script, and it subsequently updates the DOM on the fly. This way there's no inconsistency in how the messages are delivered.
+Because Flask refreshes the DOM upon each endpoint request, we need to get crafty on how to display incoming messages on the fly. There is a JavaScript file that starts a socket connection with the flask application (using Flask-SocketIO - https://flask-socketio.readthedocs.io/en/latest/). The message handler function sends a message through a socket to that JavaScript script, and it subsequently updates the DOM on the fly. This way there's no inconsistency in how the messages are delivered.
 
 ## Setup
 ### Get RabbitMQ Set Up
