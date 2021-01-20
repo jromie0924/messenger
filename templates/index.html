@@ -1,0 +1,27 @@
+<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"></script>
+<script src="static/js/application.js"></script>
+
+{% if not hasUsername %}
+<form action="/username" method="POST">
+    <p>Username: <input type="text" name="username"></p>
+    <input type="submit" value="submit">
+</form>
+{% endif %}
+
+<br />
+<br />
+<br />
+
+{% if hasUsername %}
+<p>Logged in as {{username}}</p>
+<form action="/message" method="POST">
+    <p>Message: <input type="text" name="message"></p>
+    <input type="submit" value="submit">
+    <br />
+    <br />
+</form>
+{% endif %}
+
+<div id="msgs">
+</div>
