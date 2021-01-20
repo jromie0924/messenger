@@ -41,6 +41,6 @@ Run the app:
 
 Open two browser windows side-by-side and browse to http://localhost:5000
 
-You'll be presented with a login input field; on each field enter a different name - these can be anything you like. As a result of the first pressing submit, you'll see a new queue created in the AMQP management with a UUID name.
+You'll be presented with a login input field; on each browser window enter a different name - these can be anything you like. As a result of the first pressing submit, you'll see a new queue created in the AMQP management with a UUID name.
 
 With both users "logged in," they can communicate with the current input. The "submit" button needs to be clicked with a mouse rather than with the "enter" or "return" key. You'll see the messages sent displayed, and originated user identified.
